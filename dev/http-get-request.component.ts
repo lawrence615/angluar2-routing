@@ -23,11 +23,28 @@ import {error} from "util";
         <button (click)="onPost(title.value, body.value, userId.value)">Post Data</button>
         <button (click)="onGetPosts()">Get All Posts</button>
         <p>Response: {{response | json}}</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>User Id</th>
+                    <th>Title</th>
+                    <th>Body</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="#person of get_response">
+                    <td>{{ person.id}}</td>
+                    <td>{{ person.title}}</td>
+                    <td>{{ person.body}}</td>
+                </tr>
+            </tbody>
+        </table>
     `,
     providers: [HttpService]
 })
 export class HttpGetRequestComponent {
     response:string;
+    get_response: string;
 
     constructor(private _httpService:HttpService) {
     }
@@ -35,7 +52,7 @@ export class HttpGetRequestComponent {
     onGetPosts() {
         this._httpService.getPosts()
             .subscribe(
-                response => this.response = response,
+                response => this.get_response = response,
                 error => console.log(error)
             )
     }
